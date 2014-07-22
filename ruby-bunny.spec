@@ -2,7 +2,7 @@
 Summary:	Synchronous Ruby AMQP 0.9.1 client
 Name:		ruby-%{gem_name}
 Version:	0.7.9
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages
 URL:		http://github.com/ruby-amqp/bunny
