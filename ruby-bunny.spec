@@ -2,7 +2,7 @@
 Summary:	Synchronous Ruby AMQP 0.9.1 client
 Name:		ruby-%{pkgname}
 Version:	0.7.9
-Release:	3
+Release:	4
 License:	MIT
 Group:		Development/Languages
 Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
