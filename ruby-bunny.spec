@@ -1,19 +1,15 @@
-%define gem_name bunny
+%define pkgname bunny
 Summary:	Synchronous Ruby AMQP 0.9.1 client
-Name:		ruby-%{gem_name}
+Name:		ruby-%{pkgname}
 Version:	0.7.9
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages
-URL:		http://github.com/ruby-amqp/bunny
-Source0:	http://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0:	http://rubygems.org/gems/%{pkgname}-%{version}.gem
 # Source0-md5:	9984619cb0bd727485c3bf26a00af336
+URL:		http://github.com/ruby-amqp/bunny
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
-BuildRequires:	setup.rb
-Requires:	ruby
-# Disabled for now; tests disabled due to need for running rabbitmq server
-#BuildRequires: rubygem(rspec)
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -34,16 +30,14 @@ Documentation for %{name}
 cp -p %{_datadir}/setup.rb .
 
 %build
-%{__ruby} setup.rb config \
-	--rbdir=%{ruby_rubylibdir} \
-	--sodir=%{ruby_archdir}
-
-%{__ruby} setup.rb setup
+# write .gemspec
+%__gem_helper spec
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__ruby} setup.rb install \
-	--prefix=$RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir}}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
+cp -p %{pkgname}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -51,9 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.textile CHANGELOG
-%{ruby_libdir}/bunny.rb
-%{ruby_libdir}/bunny
-%{ruby_libdir}/qrack
+%{ruby_vendorlibdir}/bunny.rb
+%{ruby_vendorlibdir}/bunny
+%{ruby_vendorlibdir}/qrack
+%{ruby_specdir}/%{pkgname}-%{version}.gemspec
 
 %if 0
 %files doc
